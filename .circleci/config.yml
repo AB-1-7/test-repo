@@ -7,6 +7,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update Package Repository
+          command: |
+            sudo apt-get update
+            sudo apt-get -o Dpkg::Options::="--force-confnew" -y dist-upgrade
+
+      - run:
           name: Install Required Packages
           command: |
             sudo apt-get update
