@@ -7,14 +7,11 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: check docker
+          name: check docker and build image
           command: |
             sudo --version
             docker --version
-      - run:
-          name: Build Docker image
-          command: |
-            docker build -t pgweb .
+            docker build -t Dockerfile
       - run:
           name: Push Docker image to ECR
           command: |
