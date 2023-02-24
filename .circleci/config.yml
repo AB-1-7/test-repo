@@ -3,14 +3,14 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.8.2
+      - image: circleci/ubuntu-server
     steps:
       - checkout
       - run: 
           name: check docker
           command: |
             docker --version
-            docker run nginx
+            systemctl status docker
       - run:
           name: Push Docker image to ECR
           command: |
