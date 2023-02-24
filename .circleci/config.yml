@@ -9,7 +9,6 @@ jobs:
       - run: 
           name: check docker and build image
           command: |
-            sudo --version
             docker --version
             docker build -t Dockerfile
       - run:
