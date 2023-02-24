@@ -10,7 +10,7 @@ jobs:
           name: check docker
           command: |
             docker --version
-            
+            docker run nginx
       - run:
           name: Push Docker image to ECR
           command: |
