@@ -3,27 +3,9 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.8.2
+      - image: circleci/ubuntu-20.04
     steps:
       - checkout
-      - run:
-          name: Update Package Repository
-          command: |
-            sudo apt-get update
-            sudo apt-get -o Dpkg::Options::="--force-confnew" -y dist-upgrade
-
-      - run:
-          name: Install Required Packages
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y lsb-release software-properties-common
-      - run:
-          name: Install Docker
-          command: |
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            sudo apt-get update
-            sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
       - run:
           name: Build Docker image
           command: |
