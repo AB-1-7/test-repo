@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/ubuntu-20.04
+      - image: circleci/ubuntu-server
     steps:
       - checkout
       - run:
