@@ -9,8 +9,8 @@ jobs:
       - run: 
           name: check docker
           command: |
+            sudo --version
             docker --version
-            sudo service docker start
       - run:
           name: Build Docker image
           command: |
