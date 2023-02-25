@@ -14,6 +14,10 @@ jobs:
           command: |
             apt install docker -y
       - run:
+          name: check docker
+          command: |
+            docker run hello-world
+      - run:
           name: Push Docker image to ECR
           command: |
             $(aws ecr get-login --no-include-email --region us-west-2)
