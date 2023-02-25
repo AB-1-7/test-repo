@@ -5,7 +5,10 @@ jobs:
     docker:
       - image: ubuntu
     steps:
-      - checkout
+      - run:
+          name : testing_ubuntu
+          command : |
+            sudo ls
       - run: 
           name: install docker
           command: |
