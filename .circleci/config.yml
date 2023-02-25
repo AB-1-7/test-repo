@@ -9,8 +9,7 @@ jobs:
       - run: 
           name: check docker
           command: |
-            docker --version
-            docker ps -a
+            docker ps - a
       - run:
           name: Push Docker image to ECR
           command: |
