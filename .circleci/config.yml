@@ -9,7 +9,7 @@ jobs:
       - run: 
           name: install docker
           command: |
-            sudo apt install docker
+            apt install docker
       - run:
           name: Push Docker image to ECR
           command: |
