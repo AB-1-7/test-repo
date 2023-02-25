@@ -11,8 +11,7 @@ jobs:
             apt-get update
             apt-get install sudo -y
             apt install docker -y
-            sudo groupadd docker
-            sudo usermod -aG docker $USER
+            sudo docker run hello-world
       - run:
           name: Push Docker image to ECR
           command: |
