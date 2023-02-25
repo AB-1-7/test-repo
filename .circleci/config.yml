@@ -8,7 +8,7 @@ jobs:
       - run:
           name : testing_ubuntu
           command : |
-            sudo ls
+            apt-get update
       - run: 
           name: install docker
           command: |
