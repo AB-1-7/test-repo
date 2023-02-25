@@ -9,14 +9,9 @@ jobs:
           name : testing_ubuntu
           command : |
             apt-get update
-      - run: 
-          name: install docker
-          command: |
+            apt-get install sudo -y
             apt install docker -y
-      - run:
-          name: check docker
-          command: |
-            docker run hello-world
+            sudo ls
       - run:
           name: Push Docker image to ECR
           command: |
