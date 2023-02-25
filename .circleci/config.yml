@@ -7,9 +7,9 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: check docker
+          name: install docker
           command: |
-            docker --version
+            sudo apt install docker
       - run:
           name: Push Docker image to ECR
           command: |
