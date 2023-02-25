@@ -10,7 +10,7 @@ jobs:
           name: check docker
           command: |
             docker --version
-            systemctl status docker
+            docker ps -a
       - run:
           name: Push Docker image to ECR
           command: |
