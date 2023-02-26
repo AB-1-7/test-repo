@@ -23,11 +23,17 @@ jobs:
             sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
             docker run hello-world
       - run:
-          name: Push Docker image to ECR
+          name: Build and Push to ECR
           command: |
-            $(aws ecr get-login --no-include-email --region us-west-2)
-            docker tag pgweb:latest <your-ecr-repo-url>:latest
-            docker push <your-ecr-repo-url>:latest
+            $(aws ecr get-login --no-include-email --region ap-south-1)
+            docker build -t https://ap-south-1.console.aws.amazon.com/ecr/repositories/private/942643773928/playment/pgweb?region=ap-south-1/Dockerfile: .
+            docker push https://ap-south-1.console.aws.amazon.com/ecr/repositories/private/942643773928/playment/pgweb?region=ap-south-1/Dockerfile:<TAG>
+    #environment:
+     # ECR_URL: <YOUR_ECR_URL>
+      #AWS_DEFAULT_REGION: <REGION>
+      #IMAGE_NAME: pgweb
+      #TAG: $CIRCLE_SHA1
+
 
 workflows:
   build-and-push:
