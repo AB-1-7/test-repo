@@ -1,20 +1,13 @@
-# Use the official Python image as the base image
-FROM python:3.8-slim-buster
+FROM alpine:latest
 
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+RUN apk add --no-cache postgresql-client
 
-# Set the working directory to /app
-WORKDIR /app
+ENV PGWEB_VERSION 0.11.9
+RUN wget -qO- https://github.com/sosedoff/pgweb/releases/download/v${PGWEB_VERSION}/pgweb_linux_amd64.zip | unzip -
 
-# Copy the requirements file into the container and install the required packages
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+#WORKDIR /pgweb_linux_amd64
 
-# Copy the pgweb source code into the container
-COPY . .
-
-# Expose port 8080 for the application
 EXPOSE 8080
 
-# Set the command to start the application
-CMD ["python", "pgweb.py"]
+CMD ["./pgweb", "--bind=0.0.0.0", "--listen=8080"]
