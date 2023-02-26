@@ -4,4 +4,33 @@ jobs:
     machine:
       image: ubuntu-2004:202201-01
     steps:
-      - run: echo "Hello, CircleCI!"
+      - run:
+          name : testing_ubuntu
+          command : |
+            apt-get update
+            apt-get install sudo -y
+            sudo apt-get update
+            sudo apt-get install \
+              ca-certificates \
+              curl \
+              gnupg \
+              lsb-release
+            sudo mkdir -m 0755 -p /etc/apt/keyrings
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+            echo \
+            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+            $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+            sudo docker run hello-world
+      - run:
+          name: Push Docker image to ECR
+          command: |
+            $(aws ecr get-login --no-include-email --region us-west-2)
+            docker tag pgweb:latest <your-ecr-repo-url>:latest
+            docker push <your-ecr-repo-url>:latest
+
+workflows:
+  build-and-push:
+    jobs:
+      - build:
+          context: aws-ecr
