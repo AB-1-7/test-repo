@@ -1,13 +1,20 @@
-FROM alpine:latest
+# Use an official Node.js runtime as a parent image
+FROM node:12-alpine
 
-RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
-RUN apk add --no-cache postgresql-client
+# Set the working directory to /app
+WORKDIR /app
 
-ENV PGWEB_VERSION 0.11.9
-RUN wget -qO- https://github.com/sosedoff/pgweb/releases/download/v${PGWEB_VERSION}/pgweb_linux_amd64.zip | unzip -
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-#WORKDIR /pgweb_linux_amd64
+# Install any needed packages specified in package.json
+RUN npm install
 
+# Make port 8080 available to the world outside this container
 EXPOSE 8080
 
-CMD ["./pgweb", "--bind=0.0.0.0", "--listen=8080"]
+# Define environment variable
+ENV NAME World
+
+# Run app.js when the container launches
+CMD ["node", "app.js"]
