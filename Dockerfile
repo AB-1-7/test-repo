@@ -1,34 +1,17 @@
-FROM golang:1.19-bullseye AS build
+FROM alpine:3.10
 
-WORKDIR /build
-ADD . /build
+ENV PGWEB_VERSION 0.11.4
 
-RUN git config --global --add safe.directory /build
-RUN go mod download
-RUN make build
+ADD https://github.com/sosedoff/pgweb/releases/download/v$PGWEB_VERSION/pgweb_linux_amd64.zip /tmp/pgweb_linux_amd64.zip
+ADD entrypoint.sh /entrypoint.sh
 
-# ------------------------------------------------------------------------------
-# Release Stage
-# ------------------------------------------------------------------------------
-FROM debian:bullseye-slim
+ENV BIND_ADDRESS 0.0.0.0
+ENV LISTEN_PORT 8080
 
-RUN \
-  apt-get update && \
-  apt-get install -y ca-certificates openssl netcat curl gnupg lsb-release && \
-  update-ca-certificates
+RUN chmod +x /entrypoint.sh && \
+    cd /tmp && \
+    unzip pgweb_linux_amd64.zip -d /usr/bin && \
+    mv /usr/bin/pgweb_linux_amd64 /usr/bin/pgweb && \
+    rm -f pgweb_linux_amd64.zip
 
-RUN \
-  curl --silent https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add && \
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" | tee  /etc/apt/sources.list.d/pgdg.list && \
-  apt-get update && apt-get install -y postgresql-client
-
-RUN \
-  apt-get clean autoclean && \
-  apt-get autoremove --yes && \
-  rm -rf /var/lib/{apt,dpkg,cache,log}/
-
-COPY --from=build /build/pgweb /usr/bin/pgweb
-
-EXPOSE 8081
-
-CMD ["/usr/bin/pgweb", "--bind=0.0.0.0", "--listen=8081"]
+ENTRYPOINT ["/entrypoint.sh"]
