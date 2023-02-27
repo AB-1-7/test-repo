@@ -34,9 +34,8 @@ jobs:
           name: Build and Push to ECR
           command: |
             $(aws ecr get-login --no-include-email --region ap-south-1)
-            docker build -t https://ap-south-1.console.aws.amazon.com/ecr/repositories/private/942643773928/playment/pgweb?region=ap-south-1/Dockerfile: .
-            docker push https://ap-south-1.console.aws.amazon.com/ecr/repositories/private/942643773928/playment/pgweb?region=ap-south-1/Dockerfile:
-    #environment:
+            
+     #environment:
      # ECR_URL: <YOUR_ECR_URL>
       #AWS_DEFAULT_REGION: <REGION>
       #IMAGE_NAME: pgweb
