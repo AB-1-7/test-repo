@@ -36,7 +36,7 @@ jobs:
           command: |
             aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 942643773928.dkr.ecr.ap-south-1.amazonaws.com
             docker build -t playment/pgweb .
-            docker tag playment/pgweb:latest 942643773928.dkr.ecr.ap-south-1.amazonaws.com/playment/pgweb:latest
+            docker tag --force playment/pgweb:latest 942643773928.dkr.ecr.ap-south-1.amazonaws.com/playment/pgweb:latest
             docker push 942643773928.dkr.ecr.ap-south-1.amazonaws.com/playment/pgweb:latest            
      #environment:
      # ECR_URL: <YOUR_ECR_URL>
