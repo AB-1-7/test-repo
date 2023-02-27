@@ -23,10 +23,12 @@ jobs:
             sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
             docker run hello-world
       
-      - run: 
-          name: check aws version
+      
+      - run:
+          name: AWS configure
           command: |
-            aws --version
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
 
       - run:
           name: Build and Push to ECR
