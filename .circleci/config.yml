@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Build and Push to ECR
           command: |
-            $(aws ecr get-login --no-include-email --region ap-south-1)
+            aws ecr get-login --no-include-email --region ap-south-1
             
      #environment:
      # ECR_URL: <YOUR_ECR_URL>
